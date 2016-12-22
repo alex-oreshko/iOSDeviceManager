@@ -71,6 +71,12 @@
             ReferencedContainer = "container:iOSDeviceManager.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "launch_app -d e86718ce0dc0e7df6de0f531bbdbd97377422ccd -b com.apple.mobilesafari"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

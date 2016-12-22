@@ -7,4 +7,6 @@
 + (iOSReturnStatusCode)stopSimulatingLocation:(NSString *)deviceID;
 + (iOSReturnStatusCode)containerPathForApplication:(NSString *)bundleID
                                           onDevice:(NSString *)deviceID;
++ (iOSReturnStatusCode)launchApp:(NSString *)bundleID appArgs:(NSString *)appArgs appEnv:(NSString *)appEnv deviceID:(NSString *)deviceID;
++ (iOSReturnStatusCode)terminateApp:(NSString *)bundleID deviceID:(NSString *)deviceID;
 @end

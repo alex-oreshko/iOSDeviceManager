@@ -4,6 +4,7 @@
 static NSString *const TEST_RUNNER_BUNDLE_ID_FLAG = @"-b";
 static NSString *const SESSION_ID_FLAG = @"-s";
 static NSString *const KEEP_ALIVE_FLAG = @"-k";
+static NSString *const TESTRUNNERARGUMENTS_ID_FLAG = @"-a";
 
 @implementation StartTestCommand
 + (NSString *)name {
@@ -26,12 +27,18 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
         sessionID = args[SESSION_ID_FLAG];
     }
     
+    NSString *runnerArgs = [self optionDict][TESTRUNNERARGUMENTS_ID_FLAG].defaultValue;
+    if ([args.allKeys containsObject:TESTRUNNERARGUMENTS_ID_FLAG]) {
+       runnerArgs = args[TESTRUNNERARGUMENTS_ID_FLAG];
+    }
+    
     NSUUID *sid = [[NSUUID alloc] initWithUUIDString:sessionID];
     NSAssert(sid, @"%@ is not a valid UUID", sid);
     
     return [Device startTestOnDevice:[self deviceIDFromArgs:args]
                            sessionID:sid
                       runnerBundleID:bundleID
+                          runnerArgs:runnerArgs
                            keepAlive:keepAlive];
 }
 
@@ -57,7 +64,7 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
                                              optionName:@"session_id"
                                                    info:@"Session ID for the XCUITest"
                                                required:NO
-                                             defaultVal:@"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"]];
+                                             defaultVal:@"BEEFBABE-FEED-BABE-BEEF-CAFEBEEFFACE"]];
         [options addObject:[CommandOption withShortFlag:KEEP_ALIVE_FLAG
                                                longFlag:@"--keep-alive"
                                              optionName:@"true-or-false"

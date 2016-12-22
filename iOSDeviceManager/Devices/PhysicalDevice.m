@@ -111,6 +111,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
                           runnerBundleID:(NSString *)runnerBundleID
+                              runnerArgs:(NSString *)runnerArgs
                                keepAlive:(BOOL)keepAlive  {
     LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@", sessionID, deviceID, runnerBundleID);
     NSError *e = nil;
@@ -120,12 +121,18 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
     if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
 
+    NSMutableArray<NSString *> *defaultBuildAttributes = [(NSArray*)[FBTestRunnerConfigurationBuilder defaultBuildAttributes] mutableCopy];
+    NSMutableArray<NSString *> *runnerArgsArray = [NSMutableArray arrayWithArray:[runnerArgs componentsSeparatedByString:@" "]];
+    [runnerArgsArray removeObject:@""];
+    [defaultBuildAttributes addObjectsFromArray:runnerArgsArray];
+
+    
     PhysicalDevice *repLog = [PhysicalDevice new];
 
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:device.deviceOperator
                                                                          runnerBundleID:runnerBundleID
                                                                               sessionID:sessionID
-                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                                                         withAttributes:defaultBuildAttributes
                                                                             environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
                                                                                reporter:repLog
                                                                                  logger:repLog
@@ -503,6 +510,46 @@ testCaseDidStartForTestClass:(NSString *)testClass
         ConsoleWrite(@"%@", path);
     }
     return iOSReturnStatusCodeEverythingOkay;
+}
+
++ (iOSReturnStatusCode)launchApp:(NSString *)bundleID appArgs:(NSString *)appArgs appEnv:(NSString *)appEnv deviceID:(NSString *)deviceID {
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    NSError *err;
+    NSMutableArray<NSString *> *appArgsArray = [NSMutableArray arrayWithArray:[appArgs componentsSeparatedByString:@" "]];
+    NSMutableArray<NSString *> *appEnvArray = [NSMutableArray arrayWithArray:[appEnv componentsSeparatedByString:@" "]];
+    [appArgsArray removeObject:@""];
+    [appEnvArray removeObject:@""];
+    NSMutableDictionary *appEnvDictionary = [[NSMutableDictionary alloc] init];
+    
+    for (NSString *env in appEnvArray) {
+        NSArray<NSString *> *keyValEnv = [env componentsSeparatedByString:@":"];
+        [appEnvDictionary[keyValEnv[0]] addObject:keyValEnv[1]];
+    }
+    
+    FBApplicationLaunchConfiguration *appLaunchConfig =[FBApplicationLaunchConfiguration configurationWithBundleID:bundleID bundleName:nil arguments:appArgsArray environment:appEnvDictionary options:FBProcessLaunchOptionsWriteStdout];
+    FBiOSDeviceOperator *operator = ((FBiOSDeviceOperator *)device.deviceOperator);
+    BOOL launched = [operator launchApplication:appLaunchConfig error:&err];
+    if (err) {
+        NSLog(@"Error checking if %@ is launched to %@ with appArgs %@ and appEnv %@: %@", bundleID, deviceID, appArgs, appEnv, err);
+        return iOSReturnStatusCodeInternalError;
+    }
+    return launched ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
+}
+
++ (iOSReturnStatusCode)terminateApp:(NSString *)bundleID deviceID:(NSString *)deviceID {
+    FBDevice *device = [self deviceForID:deviceID codesigner:nil];
+    if (!device) { return iOSReturnStatusCodeDeviceNotFound; }
+    
+    NSError *err;
+    
+    BOOL killed = [device.deviceOperator killApplicationWithBundleID:bundleID error:&err];
+    if (err) {
+        NSLog(@"Error checking if %@ is killed on %@: %@", bundleID, deviceID, err);
+        return iOSReturnStatusCodeInternalError;
+    }
+    return killed ? iOSReturnStatusCodeEverythingOkay : iOSReturnStatusCodeFalse;
 }
 
 @end

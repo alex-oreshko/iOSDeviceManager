@@ -82,6 +82,7 @@ static FBSimulatorControl *_control;
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
                           runnerBundleID:(NSString *)runnerBundleID
+                              runnerArgs:(NSString *)runnerArgs
                                keepAlive:(BOOL)keepAlive {
     if (![TestParameters isSimulatorID:deviceID]) {
         ConsoleWriteErr(@"'%@' is not a valid sim ID", deviceID);
@@ -106,13 +107,18 @@ static FBSimulatorControl *_control;
         return iOSReturnStatusCodeGenericFailure;
     }
 
+    NSMutableArray<NSString *> *defaultBuildAttributes = [(NSArray*)[FBTestRunnerConfigurationBuilder defaultBuildAttributes] mutableCopy];
+    NSMutableArray<NSString *> *runnerArgsArray = [NSMutableArray arrayWithArray:[runnerArgs componentsSeparatedByString:@" "]];
+    [runnerArgsArray removeObject:@""];
+    [defaultBuildAttributes addObjectsFromArray:runnerArgsArray];
+    
     Simulator *replog = [Simulator new];
     id<FBDeviceOperator> op = [FBSimulatorControlOperator operatorWithSimulator:simulator];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForDeviceOperator:op
                                                                          runnerBundleID:runnerBundleID
                                                                               sessionID:sessionID
-                                                                         withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                                                         withAttributes:defaultBuildAttributes
                                                                             environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
                                                                                reporter:replog
                                                                                  logger:replog

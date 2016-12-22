@@ -15,6 +15,7 @@
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
                           runnerBundleID:(NSString *)runnerBundleID
+                              runnerArgs:(NSString *)runnerArgs
                                keepAlive:(BOOL)keepAlive; //helps with integration testing
 
 + (iOSReturnStatusCode)uninstallApp:(NSString *)bundleID
@@ -37,6 +38,19 @@
                          toDevice:(NSString *)deviceID
                    forApplication:(NSString *)bundleID
                         overwrite:(BOOL)overwrite;
+
++ (iOSReturnStatusCode)uploadFile:(NSString *)filepath
+                         toDevice:(NSString *)deviceID
+                   forApplication:(NSString *)bundleID
+                        overwrite:(BOOL)overwrite;
+
++ (iOSReturnStatusCode)launchApp:(NSString *)bundleID
+                         appArgs:(NSString *)appArgs
+                          appEnv:(NSString *)appEnv
+                        deviceID:(NSString *)deviceID;
+
++ (iOSReturnStatusCode)terminateApp:(NSString *)bundleID
+                           deviceID:(NSString *)deviceID;
 
 @property BOOL testingComplete;
 @end

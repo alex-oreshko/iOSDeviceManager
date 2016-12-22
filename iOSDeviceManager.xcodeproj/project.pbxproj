@@ -30,6 +30,8 @@
 		63424F3B912E1C9B7D45D028 /* MockAndSpectaStandupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63424191DC91C3682854DDDF /* MockAndSpectaStandupTests.m */; };
 		63424FEAE76809A65BF90953 /* EntitlementTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6342445D4215DC668C7923B2 /* EntitlementTest.m */; };
 		63424FF90B5F065931C9E5E7 /* BundleResignerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 634242530988C4D64BD8E860 /* BundleResignerFactory.m */; };
+		643525FD1E0B334600DD1E5C /* LaunchAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 643525FA1E0B334600DD1E5C /* LaunchAppCommand.m */; };
+		643525FE1E0B334600DD1E5C /* TerminateAppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 643525FC1E0B334600DD1E5C /* TerminateAppCommand.m */; };
 		892A93BA1D391D3B00154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		892A93BB1D391D4000154F08 /* SimulateLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */; };
 		892A93C11D3928F800154F08 /* FBControlCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89F6DB311D37F746006A0FD5 /* FBControlCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -317,6 +319,10 @@
 		63424E880030A308875C5973 /* CertificateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CertificateTest.m; sourceTree = "<group>"; };
 		63424EEDC223490E66B7C1BB /* BundleResignerFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BundleResignerFactory.h; path = iOSDeviceManager/Utilities/BundleResignerFactory.h; sourceTree = SOURCE_ROOT; };
 		63424F3CF58B84EE37CCE3FB /* CodesignerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodesignerTest.m; sourceTree = "<group>"; };
+		643525F91E0B334600DD1E5C /* LaunchAppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LaunchAppCommand.h; path = iOSDeviceManager/Commands/LaunchAppCommand.h; sourceTree = SOURCE_ROOT; };
+		643525FA1E0B334600DD1E5C /* LaunchAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LaunchAppCommand.m; path = iOSDeviceManager/Commands/LaunchAppCommand.m; sourceTree = SOURCE_ROOT; };
+		643525FB1E0B334600DD1E5C /* TerminateAppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminateAppCommand.h; path = iOSDeviceManager/Commands/TerminateAppCommand.h; sourceTree = SOURCE_ROOT; };
+		643525FC1E0B334600DD1E5C /* TerminateAppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminateAppCommand.m; path = iOSDeviceManager/Commands/TerminateAppCommand.m; sourceTree = SOURCE_ROOT; };
 		892A93B81D391D3B00154F08 /* SimulateLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = SimulateLocationCommand.h; path = iOSDeviceManager/Commands/SimulateLocationCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892A93B91D391D3B00154F08 /* SimulateLocationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = SimulateLocationCommand.m; path = iOSDeviceManager/Commands/SimulateLocationCommand.m; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		892A93C51D392ED000154F08 /* StopSimulatingLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = StopSimulatingLocationCommand.h; path = iOSDeviceManager/Commands/StopSimulatingLocationCommand.h; sourceTree = SOURCE_ROOT; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -506,6 +512,10 @@
 		892DE4D41D22F8E100E1902C /* Commands */ = {
 			isa = PBXGroup;
 			children = (
+				643525F91E0B334600DD1E5C /* LaunchAppCommand.h */,
+				643525FA1E0B334600DD1E5C /* LaunchAppCommand.m */,
+				643525FB1E0B334600DD1E5C /* TerminateAppCommand.h */,
+				643525FC1E0B334600DD1E5C /* TerminateAppCommand.m */,
 				892DE4E11D22F99200E1902C /* iOSDeviceManagementCommand.h */,
 				892DE4DB1D22F97A00E1902C /* CLI.h */,
 				892DE4DC1D22F97A00E1902C /* CLI.m */,
@@ -917,7 +927,7 @@
 				TargetAttributes = {
 					89331D421CE222C7003C2E59 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = FYD86LA7RE;
+						DevelopmentTeam = UBF8T346G9;
 						DevelopmentTeamName = "Karl Krukow";
 						ProvisioningStyle = Automatic;
 					};
@@ -1009,6 +1019,7 @@
 				892DE4B51D22F85400E1902C /* TestParameters.m in Sources */,
 				898D7D3E1DA47513001578FE /* GCDAsyncSocket.m in Sources */,
 				898D7D911DA47569001578FE /* HTTPDynamicFileResponse.m in Sources */,
+				643525FD1E0B334600DD1E5C /* LaunchAppCommand.m in Sources */,
 				892DE51B1D237B2B00E1902C /* UninstallAppCommand.m in Sources */,
 				892DE49B1D22F84200E1902C /* Device.m in Sources */,
 				898D7D9D1DA47569001578FE /* WebSocket.m in Sources */,
@@ -1032,6 +1043,7 @@
 				634245F22FB4AAA9CACD3ADE /* BundleResigner.m in Sources */,
 				A1D930C21DC2875E0070573D /* ShasumProvider.m in Sources */,
 				63424FF90B5F065931C9E5E7 /* BundleResignerFactory.m in Sources */,
+				643525FE1E0B334600DD1E5C /* TerminateAppCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1278,6 +1290,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -1296,6 +1309,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",

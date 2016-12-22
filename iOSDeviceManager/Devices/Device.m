@@ -27,17 +27,19 @@
 + (iOSReturnStatusCode)startTestOnDevice:(NSString *)deviceID
                                sessionID:(NSUUID *)sessionID
                           runnerBundleID:(NSString *)runnerBundleID
+                              runnerArgs:(NSString *)runnerArgs
                                keepAlive:(BOOL)keepAlive {
-
     if ([TestParameters isDeviceID:deviceID]) {
         return [PhysicalDevice startTestOnDevice:deviceID
                                        sessionID:sessionID
                                   runnerBundleID:runnerBundleID
+                                      runnerArgs:(NSString *)runnerArgs
                                        keepAlive:keepAlive];
     } else {
         return [Simulator startTestOnDevice:deviceID
                                   sessionID:sessionID
                              runnerBundleID:runnerBundleID
+                                 runnerArgs:(NSString *)runnerArgs
                                   keepAlive:keepAlive];
     }
 }
@@ -118,6 +120,22 @@
                 forApplication:bundleID
                 overwrite:overwrite];
     }
+}
+
++ (iOSReturnStatusCode) launchApp:(NSString *)bundleID
+                          appArgs:(NSString *)appArgs
+                           appEnv:(NSString *)appEnv
+                         deviceID:(NSString *)deviceID {
+        return [PhysicalDevice launchApp:bundleID
+                                 appArgs:appArgs
+                                  appEnv:appEnv
+                                deviceID:deviceID];
+}
+
++ (iOSReturnStatusCode) terminateApp:(NSString *)bundleID
+                            deviceID:(NSString *)deviceID {
+        return [PhysicalDevice terminateApp:bundleID
+                              deviceID:deviceID];
 }
 
 @end
