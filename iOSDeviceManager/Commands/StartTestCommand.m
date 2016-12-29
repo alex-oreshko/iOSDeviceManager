@@ -71,6 +71,12 @@ static NSString *const TESTRUNNERARGUMENTS_ID_FLAG = @"-a";
                                                    info:@"Only set to false for smoke testing/debugging this tool"
                                                required:NO
                                              defaultVal:@(NO)]];
+        [options addObject:[CommandOption withShortFlag:TESTRUNNERARGUMENTS_ID_FLAG
+                                               longFlag:@"--test-runner-arguments"
+                                             optionName:@"test_runner_args"
+                                                   info:@"Testrunner arguments to be passed at launch"
+                                               required:NO
+                                             defaultVal:@""]];
     });
     return options;
 }
