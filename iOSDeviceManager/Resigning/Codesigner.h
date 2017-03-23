@@ -13,7 +13,6 @@ typedef void(^appResigningCompleteBlock)(Application *app);
 
  @param app Application to resign
  @param profile Profile to use to resign
- @return YES if successful, NO otherwise.
  @warn Resigns in-place (i.e. destructively)
  
  */
@@ -28,7 +27,6 @@ typedef void(^appResigningCompleteBlock)(Application *app);
  @param app Application to resign
  @param profile Profile to use to resign
  @param codesignIdentity CodesignIdentity to use to resign
- @return YES if successful, NO otherwise.
  @warn Resigns in-place (i.e. destructively)
  
  */
@@ -44,7 +42,6 @@ typedef void(^appResigningCompleteBlock)(Application *app);
  @param app Application to resign
  @param profile Profile to use to resign
  @param resourcePaths Paths to objects to inject. Intended use case is .dylibs
- @return YES if successful, NO otherwise.
  @warn Resigns in-place (i.e. destructively)
  
  Note that the objects pointed to by `resourcePaths` are simply inserted into the bundle
@@ -67,7 +64,6 @@ typedef void(^appResigningCompleteBlock)(Application *app);
  @param handler Handler block to deal with each app as they become resigned. Since resigning occurs in-place,
                 the caller should copy each application bundle over to a new location every time `handler` is
                 invoked.
- @return YES if successful, NO otherwise.
  @warn Resigns in-place (i.e. destructively)
  
  Note that the objects pointed to by `resourcePaths` are simply inserted into the bundle
@@ -86,7 +82,7 @@ typedef void(^appResigningCompleteBlock)(Application *app);
  Resigns a .framework or .dylib
  
  @param pathToObject .framework or .dylib to resign
- @param codesignIdentity CodesignIdentity to use for resigning
+ @param codesignID CodesignIdentity to use for resigning
 */
 + (void)resignObject:(NSString *)pathToObject
     codesignIdentity:(CodesignIdentity *)codesignID;
