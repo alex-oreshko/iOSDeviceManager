@@ -165,13 +165,14 @@
 		A18622751DE4FEA200A05031 /* MachClockTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A18622731DE4FEA200A05031 /* MachClockTest.m */; };
 		A1D930C71DC29C620070573D /* ShasumProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D930C51DC29C620070573D /* ShasumProviderTest.m */; };
 		B2039EF51E0C880600649BE3 /* DeviceUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2039EF41E0C880600649BE3 /* DeviceUtilsTest.m */; };
+		B20A7EF91E84494D00875B76 /* ExceptionUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF0B1E36F94A00D9FEC5 /* ExceptionUtils.m */; };
+		B20A7EFA1E845E0100875B76 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CF041E326A2900D9FEC5 /* FileUtils.m */; };
 		B22DC0061E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0071E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B22DC0081E1D799500BDD4CB /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B22DC0051E1D799500BDD4CB /* Application.m */; };
 		B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */; };
 		B23179EC1E43B13500B7D95E /* ResignObjectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */; };
 		B23179ED1E43B13500B7D95E /* ResignObjectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */; };
-		B28936011E53CE290010403C /* LibraryWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F26E961E4E7E2C008E93FC /* LibraryWrapper.h */; };
 		B28936021E53CF0F0010403C /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
 		B28936031E53CF140010403C /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
 		B28936041E53CF170010403C /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
@@ -1034,7 +1035,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B28936011E53CE290010403C /* LibraryWrapper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1353,6 +1353,7 @@
 				B28936101E53D1890010403C /* Application.m in Sources */,
 				B2A757151E5F627B004034A5 /* StartTestCommand.m in Sources */,
 				B2A757141E5F6202004034A5 /* CommandOption.m in Sources */,
+				B20A7EF91E84494D00875B76 /* ExceptionUtils.m in Sources */,
 				B2A757181E5F6283004034A5 /* KillSimulatorCommand.m in Sources */,
 				B289360C1E53D1610010403C /* PhysicalDevice.m in Sources */,
 				B28936071E53D1180010403C /* CLI.m in Sources */,
@@ -1382,6 +1383,7 @@
 				B28936081E53D1280010403C /* Command.m in Sources */,
 				B28936111E53D1AE0010403C /* Codesigner.m in Sources */,
 				B28936141E53D1C80010403C /* ShellResult.m in Sources */,
+				B20A7EFA1E845E0100875B76 /* FileUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1638,10 +1640,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
-				FRAMEWORK_SEARCH_PATHS = (
-					"/Users/automators-laptop/work/recorder/calabash/iOSDeviceManager/Frameworks",
-					"$(PROJECT_DIR)/Frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = iOSDeviceManager;
@@ -1655,10 +1654,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
-				FRAMEWORK_SEARCH_PATHS = (
-					"/Users/automators-laptop/work/recorder/calabash/iOSDeviceManager/Frameworks",
-					"$(PROJECT_DIR)/Frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = iOSDeviceManager;
