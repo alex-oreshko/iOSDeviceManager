@@ -33,7 +33,7 @@ int uninstall(const char *bundleID, const char *deviceID) {
     @autoreleasepool {
         NSString *deviceIDStr = STR(deviceID);
         NSString *appID = STR(bundleID);
-        NSArray<NSString *> *args = @[@"idm", @"uninstall", appID, deviceIDStr];
+        NSArray<NSString *> *args = @[@"idm", @"uninstall", deviceIDStr, @"-b", appID];
         return [CLI process:args];
     }
 }
@@ -42,7 +42,7 @@ int is_installed(const char *bundleID, const char *deviceID) {
     @autoreleasepool {
         NSString *deviceIDStr = STR(deviceID);
         NSString *appID = STR(bundleID);
-        NSArray<NSString *> *args = @[@"idm", @"is_installed", appID, deviceIDStr];
+        NSArray<NSString *> *args = @[@"idm", @"is_installed", deviceIDStr, @"-b", appID];
         return [CLI process:args];
     }
 }
