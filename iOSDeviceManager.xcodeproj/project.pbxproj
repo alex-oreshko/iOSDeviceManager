@@ -200,6 +200,8 @@
 		B23179EB1E43B13500B7D95E /* ResignObjectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */; };
 		B23179EC1E43B13500B7D95E /* ResignObjectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */; };
 		B23179ED1E43B13500B7D95E /* ResignObjectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B23179EA1E43B13500B7D95E /* ResignObjectCommand.m */; };
+		B23DE7E41E8D752E00E99A3A /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
+		B23DE7E51E8D753C00E99A3A /* XCTestConfigurationPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D0F6151E68703A00749462 /* XCTestConfigurationPlist.m */; };
 		B28936021E53CF0F0010403C /* XCTestBootstrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB341D37F746006A0FD5 /* XCTestBootstrap.framework */; };
 		B28936031E53CF140010403C /* FBSimulatorControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB331D37F746006A0FD5 /* FBSimulatorControl.framework */; };
 		B28936041E53CF170010403C /* FBDeviceControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F6DB321D37F746006A0FD5 /* FBDeviceControl.framework */; };
@@ -282,7 +284,6 @@
 		F5249D3F1D6B31D1006ADD64 /* AppUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3D1D6B31D1006ADD64 /* AppUtilTests.m */; };
 		F5249D401D6B31D1006ADD64 /* MobileProfileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5249D3E1D6B31D1006ADD64 /* MobileProfileTest.m */; };
 		F53764981D67A1FB009457C8 /* Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = F53764971D67A1FB009457C8 /* Resources.m */; };
-		F54ACEDE1E8A687700BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
 		F54ACEDF1E8A687700BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
 		F54ACEE01E8A687800BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
 		F54ACEE11E8A687800BC36DA /* MachClock.m in Sources */ = {isa = PBXBuildFile; fileRef = A186226F1DE4F47700A05031 /* MachClock.m */; };
@@ -1396,6 +1397,7 @@
 				B28936091E53D1370010403C /* ConsoleWriter.m in Sources */,
 				B28936161E53D1EC0010403C /* Entitlement.m in Sources */,
 				B2A757171E5F6281004034A5 /* InstallAppCommand.m in Sources */,
+				B23DE7E41E8D752E00E99A3A /* MachClock.m in Sources */,
 				B289361B1E53D2C10010403C /* ShasumProvider.m in Sources */,
 				B20A7F071E859FCB00875B76 /* HTTPConnection.m in Sources */,
 				B289360D1E53D1670010403C /* Simulator.m in Sources */,
@@ -1434,6 +1436,7 @@
 				B20A7F111E85A00A00875B76 /* HTTPAsyncFileResponse.m in Sources */,
 				B20A7F081E859FDE00875B76 /* HTTPMessage.m in Sources */,
 				B28936141E53D1C80010403C /* ShellResult.m in Sources */,
+				B23DE7E51E8D753C00E99A3A /* XCTestConfigurationPlist.m in Sources */,
 				B20A7EFA1E845E0100875B76 /* FileUtils.m in Sources */,
 				B20A7F121E85A00E00875B76 /* HTTPDataResponse.m in Sources */,
 				B20A7F101E85A00500875B76 /* WebSocket.m in Sources */,
