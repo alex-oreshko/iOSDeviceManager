@@ -275,10 +275,21 @@ static const FBSimulatorControl *_control;
     return iOSReturnStatusCodeEverythingOkay;
 }
 
-- (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
+- (iOSReturnStatusCode)launchApp:(NSString *)bundleID appArgs:(NSString *)appArgs appEnv:(NSString *)appEnv {
     NSError *error;
+    
     if ([self isInstalled:bundleID withError:&error]) {
-
+        
+        NSMutableArray<NSString *> *appArgsArray = [NSMutableArray arrayWithArray:[appArgs componentsSeparatedByString:@" "]];
+        NSMutableArray<NSString *> *appEnvArray = [NSMutableArray arrayWithArray:[appEnv componentsSeparatedByString:@" "]];
+        [appArgsArray removeObject:@""];
+        [appEnvArray removeObject:@""];
+        NSMutableDictionary *appEnvDictionary = [[NSMutableDictionary alloc] init];
+        
+        for (NSString *env in appEnvArray) {
+            NSArray<NSString *> *keyValEnv = [env componentsSeparatedByString:@":"];
+            [appEnvDictionary[keyValEnv[0]] addObject:keyValEnv[1]];
+        }
         FBApplicationLaunchConfiguration *config;
         config = [FBApplicationLaunchConfiguration configurationWithBundleID:bundleID
                                                                   bundleName:nil

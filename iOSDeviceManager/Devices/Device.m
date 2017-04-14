@@ -191,7 +191,7 @@
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
+- (iOSReturnStatusCode)launchApp:(NSString *)bundleID appArgs:(NSString *)appArgs appEnv:(NSString *)appEnv {
     MUST_OVERRIDE;
 }
 
