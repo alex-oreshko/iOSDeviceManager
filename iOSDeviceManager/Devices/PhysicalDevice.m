@@ -330,6 +330,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
                                    sessionID:(NSUUID *)sessionID
+                                  runnerArgs:(NSString *)runnerArgs
                                    keepAlive:(BOOL)keepAlive{
     if (![self isInstalled:runnerID withError:nil]) {
         ConsoleWriteErr(@"Attempted to start test with runner id: %@ but app is not installed", runnerID);
@@ -340,7 +341,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
             sessionID, [self uuid], runnerID);
     NSError *error = nil;
 
-    NSArray *attributes = [FBTestRunnerConfigurationBuilder defaultBuildAttributes];
+    NSMutableArray<NSString *> *attributes = [(NSArray*)[FBTestRunnerConfigurationBuilder defaultBuildAttributes] mutableCopy];
+    NSMutableArray<NSString *> *runnerArgsArray = [NSMutableArray arrayWithArray:[runnerArgs componentsSeparatedByString:@" "]];
+    [runnerArgsArray removeObject:@""];
+    [attributes addObjectsFromArray:runnerArgsArray];
     NSDictionary *environment = [FBTestRunnerConfigurationBuilder defaultBuildEnvironment];
 
     BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
@@ -370,7 +374,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     mutable[@"XCTestConfigurationFilePath"] = xctestConfigPath;
     environment = [NSDictionary dictionaryWithDictionary:mutable];
     ConsoleWrite(@"%@", xctestConfigPath);
-
+    
     FBTestManager *testManager =
         [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbDevice
                                            runnerBundleID:runnerID

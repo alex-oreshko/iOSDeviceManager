@@ -4,6 +4,7 @@
 static NSString *const TEST_RUNNER_BUNDLE_ID_FLAG = @"-b";
 static NSString *const SESSION_ID_FLAG = @"-s";
 static NSString *const KEEP_ALIVE_FLAG = @"-k";
+static NSString *const TESTRUNNERARGUMENTS_ID_FLAG = @"-a";
 
 @implementation StartTestCommand
 + (NSString *)name {
@@ -26,6 +27,11 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
         sessionID = args[SESSION_ID_FLAG];
     }
     
+    NSString *runnerArgs = [self optionDict][TESTRUNNERARGUMENTS_ID_FLAG].defaultValue;
+    if ([args.allKeys containsObject:TESTRUNNERARGUMENTS_ID_FLAG]) {
+        runnerArgs = args[TESTRUNNERARGUMENTS_ID_FLAG];
+    }
+    
     NSUUID *sid = [[NSUUID alloc] initWithUUIDString:sessionID];
     NSAssert(sid, @"%@ is not a valid UUID", sid);
     
@@ -34,7 +40,7 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
-    return [device startTestWithRunnerID:bundleID sessionID:sid keepAlive:keepAlive];
+    return [device startTestWithRunnerID:bundleID sessionID:sid runnerArgs:runnerArgs keepAlive:keepAlive];
 }
 
 + (NSArray <CommandOption *> *)options {
@@ -66,6 +72,12 @@ static NSString *const KEEP_ALIVE_FLAG = @"-k";
                                                    info:@"Only set to false for smoke testing/debugging this tool"
                                                required:NO
                                              defaultVal:@(NO)]];
+        [options addObject:[CommandOption withShortFlag:TESTRUNNERARGUMENTS_ID_FLAG
+                                               longFlag:@"--test-runner-arguments"
+                                             optionName:@"test_runner_args"
+                                                   info:@"Testrunner arguments to be passed at launch"
+                                               required:NO
+                                             defaultVal:@""]];
     });
     return options;
 }

@@ -207,7 +207,7 @@
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID  runnerArgs:(NSString *)runnerArgs keepAlive:(BOOL)keepAlive {
     MUST_OVERRIDE;
 }
 

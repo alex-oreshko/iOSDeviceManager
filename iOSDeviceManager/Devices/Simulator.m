@@ -341,6 +341,7 @@ static const FBSimulatorControl *_control;
 
 - (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID
                                    sessionID:(NSUUID *)sessionID
+                                  runnerArgs:(NSString *)runnerArgs
                                    keepAlive:(BOOL)keepAlive {
     NSError *error = nil;
     if (![self bootSimulatorIfNecessary:&error]) {
@@ -360,12 +361,17 @@ static const FBSimulatorControl *_control;
         return iOSReturnStatusCodeInternalError;
     }
 
+    NSMutableArray<NSString *> *attributes = [(NSArray*)[FBTestRunnerConfigurationBuilder defaultBuildAttributes] mutableCopy];
+    NSMutableArray<NSString *> *runnerArgsArray = [NSMutableArray arrayWithArray:[runnerArgs componentsSeparatedByString:@" "]];
+    [runnerArgsArray removeObject:@""];
+    [attributes addObjectsFromArray:runnerArgsArray];
+
     Simulator *replog = [Simulator new];
     [XCTestBootstrapFrameworkLoader loadPrivateFrameworksOrAbort];
     FBTestManager *testManager = [FBXCTestRunStrategy startTestManagerForIOSTarget:self.fbSimulator
                                                                     runnerBundleID:runnerID
                                                                          sessionID:sessionID
-                                                                    withAttributes:[FBTestRunnerConfigurationBuilder defaultBuildAttributes]
+                                                                    withAttributes:attributes
                                                                        environment:[FBTestRunnerConfigurationBuilder defaultBuildEnvironment]
                                                                           reporter:replog
                                                                             logger:replog
