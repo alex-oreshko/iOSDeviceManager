@@ -1,6 +1,8 @@
 #import "LaunchAppCommand.h"
 
 static NSString *const BUNDLE_ID_FLAG = @"-b";
+static NSString *const APPARGUMENTS_ID_FLAG = @"-a";
+static NSString *const APPENVIRONMENT_ID_FLAG = @"-e";
 
 @implementation LaunchAppCommand
 + (NSString *)name {
@@ -24,6 +26,18 @@ static NSString *const BUNDLE_ID_FLAG = @"-b";
                                                    info:@"iOS Simulator GUIDs"
                                                required:NO
                                              defaultVal:nil]];
+        [options addObject:[CommandOption withShortFlag:APPARGUMENTS_ID_FLAG
+                                              longFlag:@"--app-arguments"
+                                            optionName:@"app-args"
+                                                  info:@"App arguments to be passed at launch"
+                                              required:NO
+                                            defaultVal:@""]];
+        [options addObject:[CommandOption withShortFlag:APPENVIRONMENT_ID_FLAG
+                                               longFlag:@"--app-environment"
+                                             optionName:@"app-env"
+                                                   info:@"App environment variables in key:value format seprated by space"
+                                               required:NO
+                                             defaultVal:@""]];
     });
     return options;
 }
@@ -34,6 +48,6 @@ static NSString *const BUNDLE_ID_FLAG = @"-b";
         return iOSReturnStatusCodeDeviceNotFound;
     }
     
-    return [device launchApp:args[BUNDLE_ID_FLAG]];
+    return [device launchApp:args[BUNDLE_ID_FLAG] appArgs:args[APPARGUMENTS_ID_FLAG] appEnv:args[APPENVIRONMENT_ID_FLAG]];
 }
 @end

@@ -211,7 +211,7 @@
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)launchApp:(NSString *)bundleID {
+- (iOSReturnStatusCode)launchApp:(NSString *)bundleID appArgs:(NSString *)appArgs appEnv:(NSString *)appEnv {
     MUST_OVERRIDE;
 }
 
@@ -227,7 +227,7 @@
     MUST_OVERRIDE;
 }
 
-- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID keepAlive:(BOOL)keepAlive {
+- (iOSReturnStatusCode)startTestWithRunnerID:(NSString *)runnerID sessionID:(NSUUID *)sessionID  runnerArgs:(NSString *)runnerArgs keepAlive:(BOOL)keepAlive {
     MUST_OVERRIDE;
 }
 

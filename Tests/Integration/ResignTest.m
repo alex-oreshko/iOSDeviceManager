@@ -158,7 +158,7 @@
         actual = [operator installApplicationWithPath:bundlePath error:&error];
         expect(actual).to.equal(YES);
 
-        iOSReturnStatusCode code = [device launchApp:[application bundleID]];
+        iOSReturnStatusCode code = [device launchApp:[application bundleID] appArgs:@"" appEnv:@""];
 
         expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);
     }
