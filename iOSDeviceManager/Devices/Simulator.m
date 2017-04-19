@@ -403,6 +403,9 @@ static const FBSimulatorControl *_control;
         ConsoleWriteErr(@"TestRunner %@ must be installed before you can run a test.", runnerID);
         return iOSReturnStatusCodeGenericFailure;
     }
+    
+    NSLog(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@",
+          sessionID, [self uuid], runnerID);
 
     BOOL staged = [self stageXctestConfigurationToTmpForBundleIdentifier:runnerID
                                                                    error:&error];
@@ -410,7 +413,7 @@ static const FBSimulatorControl *_control;
         ConsoleWriteErr(@"Could not stage xctestconfiguration to application tmp directory: %@", error);
         return iOSReturnStatusCodeInternalError;
     }
-
+    
     NSMutableArray<NSString *> *attributes = [(NSArray*)[FBTestRunnerConfigurationBuilder defaultBuildAttributes] mutableCopy];
     NSMutableArray<NSString *> *runnerArgsArray = [NSMutableArray arrayWithArray:[runnerArgs componentsSeparatedByString:@" "]];
     [runnerArgsArray removeObject:@""];

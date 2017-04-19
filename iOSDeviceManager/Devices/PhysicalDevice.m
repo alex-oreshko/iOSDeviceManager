@@ -387,10 +387,13 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInternalError;
     }
 
-    LogInfo(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@",
+    ConsoleWriteErr(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@",
             sessionID, [self uuid], runnerID);
     NSError *error = nil;
 
+    NSLog(@"Starting test with SessionID: %@, DeviceID: %@, runnerBundleID: %@",
+          sessionID, [self uuid], runnerID);
+    
     NSMutableArray<NSString *> *attributes = [(NSArray*)[FBTestRunnerConfigurationBuilder defaultBuildAttributes] mutableCopy];
     NSMutableArray<NSString *> *runnerArgsArray = [NSMutableArray arrayWithArray:[runnerArgs componentsSeparatedByString:@" "]];
     [runnerArgsArray removeObject:@""];

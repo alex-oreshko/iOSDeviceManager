@@ -1136,13 +1136,13 @@
 				TargetAttributes = {
 					89331D421CE222C7003C2E59 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = FYD86LA7RE;
+						DevelopmentTeam = UBF8T346G9;
 						DevelopmentTeamName = "Karl Krukow";
 						ProvisioningStyle = Automatic;
 					};
 					89EF4AC81CFA614F006DCDC5 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = FYD86LA7RE;
+						DevelopmentTeam = UBF8T346G9;
 						DevelopmentTeamName = "Karl Krukow";
 						ProvisioningStyle = Automatic;
 					};
@@ -1581,6 +1581,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -1599,6 +1600,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -1618,6 +1620,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
@@ -1637,6 +1640,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
