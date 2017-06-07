@@ -526,7 +526,10 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                         dataBundle, e);
     }
 
-    [ConsoleWriter write:dest];
+    NSString *containerPath = [self containerPathForApplication:bundleID];
+    NSString *uploadedFilePath = [[containerPath stringByAppendingPathComponent:@"tmp"]
+                        stringByAppendingPathComponent:filename];
+    [ConsoleWriter write:uploadedFilePath];
     return iOSReturnStatusCodeEverythingOkay;
 }
 
