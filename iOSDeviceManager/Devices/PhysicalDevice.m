@@ -465,6 +465,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
         return iOSReturnStatusCodeInvalidArguments;
     }
 
+    NSString *dataFolder = @"Documents";
     NSString *guid = [NSProcessInfo processInfo].globallyUniqueString;
     NSString *xcappdataName = [NSString stringWithFormat:@"%@.xcappdata", guid];
     NSString *xcappdataPath = [[NSTemporaryDirectory()
@@ -472,7 +473,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
                                stringByAppendingPathComponent:xcappdataName];
     NSString *dataBundle = [[xcappdataPath
                              stringByAppendingPathComponent:@"AppData"]
-                            stringByAppendingPathComponent:@"Documents"];
+                            stringByAppendingPathComponent:dataFolder];
 
     LogInfo(@"Creating .xcappdata bundle at %@", xcappdataPath);
 
@@ -527,7 +528,7 @@ forInstalledApplicationWithBundleIdentifier:(NSString *)arg2
     }
 
     NSString *containerPath = [self containerPathForApplication:bundleID];
-    NSString *uploadedFilePath = [[containerPath stringByAppendingPathComponent:@"tmp"]
+    NSString *uploadedFilePath = [[containerPath stringByAppendingPathComponent:dataFolder]
                         stringByAppendingPathComponent:filename];
     [ConsoleWriter write:uploadedFilePath];
     return iOSReturnStatusCodeEverythingOkay;
