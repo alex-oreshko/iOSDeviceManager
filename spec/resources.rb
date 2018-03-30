@@ -62,16 +62,22 @@ module IDM
     end
 
     def xcode
-      @xcode ||= RunLoop::Xcode.new
+      RunLoop::Xcode.new
     end
 
     def simctl
-      @simctl ||= RunLoop::Simctl.new
+      RunLoop::Simctl.new
     end
 
     def default_simulator
-      @default_simulator ||= simctl.simulators.detect do |sim|
-        sim.instruments_identifier(xcode) == RunLoop::Core.default_simulator
+      # Since we have tests that are running against
+      # all Xcode paths we don't need to store udid
+      # in instance variable. Instead we select a new
+      # one for every Xcode path
+      local_xcode = xcode
+      sim_string = RunLoop::Core.default_simulator(local_xcode)
+      simctl.simulators.detect do |sim|
+        sim.instruments_identifier(local_xcode) == sim_string
       end
     end
 
@@ -84,7 +90,7 @@ module IDM
     end
 
     def instruments
-      @instruments ||= RunLoop::Instruments.new
+      RunLoop::Instruments.new
     end
 
     def physical_devices
@@ -196,6 +202,49 @@ compatible with the current Xcode version.
       end
 
      false
+    end
+
+    def with_developer_dir(developer_dir, &block)
+      original_developer_dir = ENV['DEVELOPER_DIR']
+      begin
+        ENV.delete('DEVELOPER_DIR')
+        ENV['DEVELOPER_DIR'] = developer_dir
+        RunLoop::Simctl.ensure_valid_core_simulator_service
+        block.call
+      ensure
+        ENV['DEVELOPER_DIR'] = original_developer_dir
+      end
+    end
+
+    def xcode_install_paths
+      @xcode_install_paths ||= begin
+        min_xcode_version = RunLoop::Version.new("8.3.3")
+        Dir.glob('/Xcode/*/*.app/Contents/Developer').map do |path|
+          xcode_version = path[/(\d+\.\d+(\.\d+)?)/]
+          if RunLoop::Version.new(xcode_version) >= min_xcode_version
+            path
+          else
+            nil
+          end
+        end
+      end.compact
+    end
+
+    def with_xcode_installations(&block)
+      xcode_install_paths.each do |developer_directory|
+        with_developer_dir(developer_directory) do
+          block.call
+        end
+      end
+    end
+
+    def physical_devices_for_testing
+      instruments = RunLoop::Instruments.new
+      xcode = instruments.xcode
+
+      instruments.physical_devices.select do |device|
+        device_compatible_with_xcode?(device, xcode)
+      end
     end
 
     def default_physical_device
