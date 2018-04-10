@@ -36,6 +36,12 @@
     [super tearDown];
 }
 
+- (void)testWithUDID {
+    
+    Simulator *sim = [Simulator withID:@"abc"];
+    NSLog(@"sim %@", sim);
+}
+
 - (void)testLaunchSimulator {
     iOSReturnStatusCode code = [Simulator launchSimulator:self.simulator];
     expect(code).to.equal(iOSReturnStatusCodeEverythingOkay);

@@ -32,30 +32,38 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 @implementation Simulator
 
-static const FBSimulatorControl *_control;
 
-+ (void)initialize {
-    FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
-                                                      configurationWithDeviceSetPath:nil
-                                                      options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
-    NSError *error;
-    _control = [FBSimulatorControl withConfiguration:configuration error:&error];
-    if (error) {
-        ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", error);
-        abort();
-    }
++ (FBSimulatorControl *)fbSimulatorcontrol {
+    static FBSimulatorControl *control;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        FBSimulatorControlConfiguration *configuration = [FBSimulatorControlConfiguration
+                                                          configurationWithDeviceSetPath:nil
+                                                          options:FBSimulatorManagementOptionsIgnoreSpuriousKillFail];
+        NSError *error;
+        control = [FBSimulatorControl withConfiguration:configuration error:&error];
+        if (!control) {
+            ConsoleWriteErr(@"Error creating FBSimulatorControl: %@", error);
+            abort();
+        }
+    });
+    return control;
 }
+
 
 + (Simulator *)withID:(NSString *)uuid {
     Simulator* simulator = [[Simulator alloc] init];
 
     simulator.uuid = uuid;
 
-    FBSimulatorSet *sims = _control.set;
+    FBSimulatorSet *sims = [[Simulator fbSimulatorcontrol] set];
     if (!sims) {
         ConsoleWriteErr(@"Unable to retrieve simulators");
         return nil;
     }
+    
+    FBXcodeConfiguration *config = [FBXcodeConfiguration new];
+    NSLog(@"config = %@", config);
 
     FBiOSTargetQuery *query = [FBiOSTargetQuery udids:@[uuid]];
     NSArray <FBSimulator *> *results = [sims query:query];
@@ -181,7 +189,7 @@ static const FBSimulatorControl *_control;
         }
     }
 
-    FBSimulatorSet *simulators = _control.set;
+    FBSimulatorSet *simulators = [[Simulator fbSimulatorcontrol] set];
     FBiOSTargetQuery *query = [FBiOSTargetQuery allTargets];
     NSArray <FBSimulator *> *results = [simulators query:query];
     for (FBSimulator *simulator in results) {
@@ -828,10 +836,10 @@ static const FBSimulatorControl *_control;
 
 + (FBSimulator *)simulatorWithConfiguration:(FBSimulatorConfiguration *)configuration {
     NSError *error = nil;
-    FBSimulator *simulator = [_control.pool allocateSimulatorWithConfiguration:configuration
-                                                                       options:FBSimulatorAllocationOptionsReuse
-                                                                         error:&error];
-    if (error) {
+    FBSimulator *simulator = [[Simulator fbSimulatorcontrol].pool allocateSimulatorWithConfiguration:configuration
+                                                                                             options:FBSimulatorAllocationOptionsReuse
+                                                                                               error:&error];
+    if (!simulator) {
         ConsoleWriteErr(@"Error obtaining simulator: %@", error);
     }
     return simulator;

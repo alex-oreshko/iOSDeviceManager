@@ -30,9 +30,11 @@ module IDM
     end
   end
 
-  def self.shell(args)
+  def self.shell(args, environment={})
     cmd = [Resources.instance.idm] + args
-    RunLoop::Shell.run_shell_command(cmd, {log_cmd: true, timeout: 180})
+    RunLoop::Shell.run_shell_command(cmd, {log_cmd: true,
+                                           timeout: 180,
+                                           environment: environment})
   end
 
   class Resources
@@ -61,6 +63,28 @@ module IDM
       dir
     end
 
+    # Remove this.
+    #
+    # We want @tmp_dir be memoized to "${project_dir}/tmp"
+    #
+    # If we pass a subdir argument, we do not want the
+    # tmp directory to _always_ be "${project_dir}/tmp/subdir"
+    def tmpdir(subdir=nil)
+      @tmpdir ||= begin
+                    path = File.expand_path("tmp")
+                    FileUtils.mkdir_p(path)
+                    path
+                  end
+
+      if subdir
+        dir = File.join(@tmpdir, subdir)
+        FileUtils.rm_rf(dir)
+      else
+        dir = path
+      end
+      dir
+    end
+
     def xcode
       RunLoop::Xcode.new
     end
@@ -70,6 +94,9 @@ module IDM
     end
 
     def default_simulator
+      # remove comment
+      #
+      #
       # Since we have tests that are running against
       # all Xcode paths we don't need to store udid
       # in instance variable. Instead we select a new
@@ -93,16 +120,19 @@ module IDM
       RunLoop::Instruments.new
     end
 
+    # duplicate
     def physical_devices
       instruments.physical_devices.select do |device|
         device_compatible_with_xcode?(device, xcode)
       end
     end
 
+    # duplicate?
     def physical_device_connected?
       !physical_devices.empty?
     end
 
+    # duplicate?
     def physical_device
       return nil if !physical_device_connected?
       return physical_devices[0] if physical_devices.count == 1
@@ -113,7 +143,7 @@ module IDM
 More than one physical device is connected.
 
 Use DEVICE_TARGET={udid | device-name} or disconnect all but one device.
-])
+              ])
       end
 
       device = instruments.physical_devices.select do |elm|
@@ -128,15 +158,15 @@ More than one physical device is connected.
 DEVICE_TARGET=#{value} but no matching device is connected.
 
 # Compatible connected devices
-#{physical_devices}
+            #{physical_devices}
 
 If a device is connected, it is possible that its iOS version is not
 compatible with the current Xcode version.
 
 # Connected devices
-#{instruments.physical_devices}
+            #{instruments.physical_devices}
 
-])
+            ])
     end
 
     def test_app(type)
@@ -189,21 +219,6 @@ compatible with the current Xcode version.
       target
     end
 
-    def device_compatible_with_xcode?(device, xcode)
-      device_version = device.version
-      xcode_version = xcode.version
-
-      if device_version.major < (xcode_version.major + 2)
-        return true
-      end
-
-      if device_version.major == (xcode_version.major + 2)
-        return device_version.minor <= xcode_version.minor
-      end
-
-     false
-    end
-
     def with_developer_dir(developer_dir, &block)
       original_developer_dir = ENV['DEVELOPER_DIR']
       begin
@@ -218,21 +233,23 @@ compatible with the current Xcode version.
 
     def xcode_install_paths
       @xcode_install_paths ||= begin
-        min_xcode_version = RunLoop::Version.new("8.3.3")
-        Dir.glob('/Xcode/*/*.app/Contents/Developer').map do |path|
-          xcode_version = path[/(\d+\.\d+(\.\d+)?)/]
-          if RunLoop::Version.new(xcode_version) >= min_xcode_version
-            path
-          else
-            nil
-          end
-        end
-      end.compact
+                                 min_xcode_version = RunLoop::Version.new("8.3.3")
+                                 Dir.glob('/Xcode/*/*.app/Contents/Developer').map do |path|
+                                   xcode_version = path[/(\d+\.\d+(\.\d+)?)/]
+                                   if RunLoop::Version.new(xcode_version) >= min_xcode_version
+                                     path
+                                   else
+                                     nil
+                                   end
+                                 end
+                               end.compact
     end
 
     def with_xcode_installations(&block)
       xcode_install_paths.each do |developer_directory|
         with_developer_dir(developer_directory) do
+          # Maybe?
+          RunLoop::Simctl.ensure_valid_core_simulator_service
           block.call
         end
       end
@@ -241,48 +258,19 @@ compatible with the current Xcode version.
     def physical_devices_for_testing
       instruments = RunLoop::Instruments.new
       xcode = instruments.xcode
+      xcode_version = xcode.version
 
       instruments.physical_devices.select do |device|
-        device_compatible_with_xcode?(device, xcode)
+        device.compatible_with_xcode_version?(xcode_version)
       end
     end
 
     def default_physical_device
-      if @default_physical_device == ""
-        return nil
-      elsif @default_physical_device
-        return @default_physical_device
-      end
-
-      devices = instruments.physical_devices.select do |device|
-        device_compatible_with_xcode?(device, xcode)
-      end
-
-      if devices.empty?
-        @default_physical_device = ""
-      else
-        @default_physical_device = devices.first
-      end
+      physical_devices_for_testing.first
     end
 
     def physical_device_attached?
-      default_physical_device != ""
-    end
-
-    def tmpdir(subdir=nil)
-      @tmpdir ||= begin
-        path = File.expand_path("tmp")
-        FileUtils.mkdir_p(path)
-        path
-      end
-
-      if subdir
-        dir = File.join(@tmpdir, subdir)
-        FileUtils.rm_rf(dir)
-      else
-        dir = path
-      end
-      dir
+      default_physical_device != nil
     end
   end
 end

@@ -70,6 +70,10 @@ describe "clear-app-data command" do
                                  .test_app(device.physical_device? ? :arm : :x86)
             RunLoop::App.new(path)
           end
+          let(:enviroment) { {"DEVELOPER_DIR" => developer_dir} }
+
+          # replace with a fixture - no need to generate this over and over
+          # we only need one empty xcappdata
           let(:xcappdata) do
             appdata = File.join(IDM::Resources.instance.tmpdir("xcappdata"),
                                 "New.xcappdata")
@@ -99,7 +103,7 @@ describe "clear-app-data command" do
           it "fails if app isn't installed", :skip_install do
             DeviceAppHelper.uninstall(udid, app.bundle_identifier)
             args = ["clear-app-data", app.path, udid]
-            hash = IDM.shell(args)
+            hash = IDM.shell(args, environment)
             expect(hash[:exit_status]).to be == IDM.exit_status(:false)
           end
 
